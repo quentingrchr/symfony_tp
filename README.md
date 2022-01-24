@@ -1,6 +1,7 @@
 # Start
 - Clone the project
-- Launch ````composer install````
 - Make sure you got the right .env
-- Launch ````docker compose up -d````
-- Launch ```symfony server:start -d```
+- ````composer install````
+- ````docker compose up -d````
+- ```symfony server:start -d```
+- Launch http://localhost:8001 on your browser
