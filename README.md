@@ -4,4 +4,4 @@
 - ````composer install````
 - ````docker compose up -d````
 - ```symfony server:start -d```
-- Launch http://localhost:8001 on your browser
+- Launch http://localhost:8000 on your browser
