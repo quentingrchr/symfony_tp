@@ -43,7 +43,7 @@ final class PostFactory extends ModelFactory
             'title' => self::faker()->word(),
             'created_at' => self::faker()->dateTimeBetween('-1 year'), // TODO add DATETIME ORM type manually
             'description' => self::faker()->text(),
-            'is_published' => true,
+            'is_published' => self::faker()->boolean(),
             'author' => UserFactory::random(),
             'condition' => self::faker()->boolean() ? 'first hand' : 'second hand',
             'category' => CategoryFactory::random()

@@ -25,6 +25,7 @@ class PostRepository extends ServiceEntityRepository
     public function findAllPostsOrderedByNewest()
     {
         return $this->createQueryBuilder('q')
+            ->andWhere('q.is_published = TRUE')
             ->orderBy('q.created_at', 'Desc')
             ->getQuery()
             ->getResult();

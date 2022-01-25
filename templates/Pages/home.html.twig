@@ -16,6 +16,7 @@
             <th scope="col">Description</th>
             <th scope="col">Date</th>
             <th scope="col">Author</th>
+            <th scope="col">Published</th>
             <th scope="col">Images</th>
         </tr>
         </thead>
@@ -32,6 +33,7 @@
                     <td>{{ post.description }}</td>
                     <td>{{ post.createdAt|date('d-m-Y') }}</td>
                     <td>{{ firstName|capitalize }} {{ lastName|capitalize }}</td>
+                    <td>{{ post.isPublished }}</td>
                     <td>
                         <ul>
                             {% for image in  post.images %}
