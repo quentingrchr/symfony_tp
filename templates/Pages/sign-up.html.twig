@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+{% block body %}
+    <div class="container align-items-center mt-5">
+        <h1 class="text-center mb-5">Sign up</h1>
+        {% if error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error !</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <form class="m-auto" style="max-width: 600px"  method="POST" action="{{path('app_newUser')}}">
+            <div class="form-group mb-5">
+                <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group mb-5">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            </div>
+            <div class="form-group mb-5">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+            </div>
+            <div class="form-group mb-5">
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="Phone (Optionnal)">
+            </div>
+            <div class="form-check mx-auto mb-5" style="width: fit-content;">
+                <input type="checkbox" name="is-admin" class="form-check-input" id="is-admin">
+                <label class="form-check-label" for="is-admin">Admin</label>
+            </div>
+            <button class="d-flex btn btn-primary m-auto" style="width: fit-content; " type="submit">Create account</button>
+        </form>
+    </div>
+{% endblock %}
