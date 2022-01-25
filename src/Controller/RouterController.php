@@ -6,12 +6,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Post;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PostRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use DateTime;
 
 class RouterController extends AbstractController
@@ -27,41 +29,75 @@ class RouterController extends AbstractController
     }
 
     /**
-     * @Route("post/new", name="app_newPost")
+     * @Route("new-post", name="app_newPost")
+     * @return Response
+     */
+    public function newPost(CategoryRepository $categoryRepository) :Response
+    {
+        $categories = $categoryRepository->findAll();
+        return $this->render('Pages/newPost.html.twig', ["categories" => $categories]);
+    }
+
+    /**
+     * @Route("new-post/add", name="app_addPost")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function newPost(Request $request, EntityManagerInterface $entityManager): Response
+    public function addPost(Request $request, EntityManagerInterface $entityManager): RedirectResponse
     {
-        #$author = $request->request->get('author');
-        #$category = $request->request->get('category');
-        #$condition = $request->request->get('condition');
-        #$price = $request->request->get('price');
-        #$description = $request->request->get('description');
-        #$image = $request->request->get('image');
+        $title = $request->request->get('title');
+        $categoryId = $request->request->get('category');
+        $price = $request->request->get('price');
+        $condition = $request->request->get('condition');
+        $description = $request->request->get('description');
+        $image = $request->request->get('image');
+        $publication = $request->request->get('publication');
 
 
-        $user = $entityManager->getReference(User::class, 8);
-        $category = $entityManager->getReference(Category::class, 1);
-        $created_at = new DateTime();
+        if (!$title || !$categoryId || $categoryId === '0' || !$price || !$condition || !$description || !$publication)
+        {
+            dd($request->request);
+        }
+        else
+        {
+            $user = $entityManager->getReference(User::class, 8);
 
+            $intCategoryId = intval($categoryId);
+            $category = $entityManager->getReference(Category::class, $intCategoryId);
 
-        $post = (new Post())
-            ->setAuthor($user)
-            ->setCategory($category)
-            ->setCondition("")
-            ->setPrice(4)
-            ->setTitle("Poster de batman")
-            ->setCreatedAt($created_at)
-            ->setDescription("Poster de batman 60x130. Très bon état.")
-            ->setIsPublished(true)
-            ->setImages([]);
+            $created_at = new DateTime();
 
-        $entityManager->persist($post);
-        $entityManager->flush();
+            $floatPrice = floatval($price);
 
-        return new Response(sprintf('nouvelle annonce avec le titre : %s', $post->getTitle()));
+            if ($publication === "on")
+            {
+                $boolPublication = true;
+            }
+            else
+            {
+                $boolPublication = false;
+            }
+
+            $post = (new Post())
+                ->setAuthor($user)
+                ->setCategory($category)
+                ->setCondition($condition)
+                ->setPrice($floatPrice)
+                ->setTitle($title)
+                ->setCreatedAt($created_at)
+                ->setDescription($description)
+                ->setIsPublished($boolPublication)
+                ->setImages($image);
+
+            $entityManager->persist($post);
+            $entityManager->flush();
+            $postId = $post->getId();
+
+            return $this->redirectToRoute('app_post', [
+                'id' => $postId
+            ]);
+        }
     }
 
     /**

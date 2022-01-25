@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    New Post
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5" style="max-width: 600px;">
+        <h1 class="h2 text-center mb-5">Vous allez poster une annonce</h1>
+        <form method="POST" action="{{ path("app_addPost") }}">
+            <div class="form-floating mb-3">
+                <input name="title" id="title" placeholder="Titre de l'annonce" type="text" class="form-control" />
+                <label for="title">Titre de l'annonce *</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select name="category" id="category" class="form-select" aria-label="Default select example">
+                    <option value="0" selected>Catégories</option>
+                    {% for categorie in categories %}
+                        <option value="{{ categorie.id }}">{{ categorie.name|capitalize }}</option>
+                    {% endfor %}
+                </select>
+                <label for="category">Catégorie de l'article *</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input name="price" id="price" placeholder="Prix de l'article (€)" type="text" class="form-control" />
+                <label for="price">Prix de l'article (€) *</label>
+            </div>
+            <div class="d-flex flex-column gap-1 rounded mb-3" style="padding: 1rem 0.75rem; border:1px solid #ced4da">
+                <label class="form-label">Etat de l'article *</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check">
+                        <input name="condition" id="condition" type="radio" class="form-check-input" value="first hand" checked />
+                        <label class="form-check-label" for="condition">
+                            Première main
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="condition" id="condition-bis" type="radio" class="form-check-input" value="second hand" />
+                        <label class="form-check-label" for="condition-bis">
+                            Seconde main
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea name="description" id="description" placeholder="Description" type="text" class="form-control" row="3"></textarea>
+                <label for="description">Description *</label>
+            </div>
+            <div class="mb-3">
+                <input name="images" type="file" class="form-control" />
+            </div>
+            <div class="d-flex flex-column gap-1 rounded mb-5" style="padding: 1rem 0.75rem; border:1px solid #ced4da">
+                <label class="form-label">Souahitez-vous publier votre annonce tout de suite ?</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check">
+                        <input name="publication" id="publication-on" type="radio" class="form-check-input" value="on" checked />
+                        <label class="form-check-label" for="publication-on">
+                            Oui
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="publication" id="publication-off" type="radio" class="form-check-input" value="off" />
+                        <label class="form-check-label" for="publication-off">
+                            Non
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" name="submit-post" class="btn text-white" style="background:#7749F8" />Publier l'annonce</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
