@@ -63,4 +63,16 @@ class RouterController extends AbstractController
 
         return new Response(sprintf('nouvelle annonce avec le titre : %s', $post->getTitle()));
     }
+
+    /**
+     * @Route("/post/{id}", name="app_post")
+     * @return response
+     */
+    public function postPage(string $id, PostRepository $postRepository) :Response
+    {
+        $post = $postRepository->findOnePostById($id);
+        return $this->render('Pages/post.html.twig', ["post" => $post]);
+
+
+    }
 }
