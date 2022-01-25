@@ -45,7 +45,6 @@ class PostRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
-
     }
 
     // /**
