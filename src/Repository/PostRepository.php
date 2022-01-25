@@ -37,7 +37,10 @@ class PostRepository extends ServiceEntityRepository
      */
     public function findOnePostById($id): ?Post
     {
-        return $this->createQueryBuilder('q')
+        $formatId = intval($id);
+        return $formatId === 0 ?
+            null :
+            $this->createQueryBuilder('q')
             ->andWhere('q.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
