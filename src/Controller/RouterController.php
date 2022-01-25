@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,11 +24,8 @@ class RouterController extends AbstractController
      * @Route("/post/{id}", name="app_post")
      * @return response
      */
-    public function postPage(string $id, PostRepository $postRepository) :Response
+    public function postPage(Post $post) :Response
     {
-        $post = $postRepository->findOnePostById($id);
         return $this->render('Pages/post.html.twig', ["post" => $post]);
-
-
     }
 }
