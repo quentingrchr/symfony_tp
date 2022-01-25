@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Post
-{% endblock %}
+   {% block title %}
+      {% if(post is null) %}
+         Not found
+      {% else %}
+         Post: {{ post.title }}
+      {% endif %}
+   {% endblock %}
 
 
-{% block body %}
-   <h1>Post {{ id }}</h1>
-{% endblock %}
+   {% block body %}
+      {% if(post is null) %}
+         <p>Sorry, this post doesn't exists</p>
+         <a href="{{ path('app_homePage') }}" class="btn btn-primary my-5">Back to home page</a>
+      {% else %}
+         <h1>Post: {{ post.title }}</h1>
+      {% endif %}
+   {% endblock %}
+
+
+
+
