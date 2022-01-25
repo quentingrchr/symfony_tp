@@ -32,17 +32,20 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id
-     * @return ?Post
+     * @param string $id
+     * @return Post|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findOnePostById($id): ?Post
+    public function findOnePostById(string $id): ?Post
     {
+
         $formatId = intval($id);
+
         return $formatId === 0 ?
             null :
             $this->createQueryBuilder('q')
             ->andWhere('q.id = :id')
-            ->setParameter('id', $id)
+            ->setParameter('id', $formatId)
             ->getQuery()
             ->getOneOrNullResult();
     }

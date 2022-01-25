@@ -71,12 +71,16 @@ class RouterController extends AbstractController
 
     /**
      * @Route("/post/{id}", name="app_post")
-     * @param Post $post
-     * @return response
+     * @param string $id
+     * @param PostRepository $postRepository
+     * @return Response
      */
-    public function postPage(Post $post) :Response
+    public function postPage(string $id, PostRepository $postRepository) :Response
     {
+        $post = $postRepository->findOnePostById($id);
         return $this->render('Pages/post.html.twig', ["post" => $post]);
+
+
     }
 
 
