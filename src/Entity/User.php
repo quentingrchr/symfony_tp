@@ -119,6 +119,18 @@ class User
         return $this;
     }
 
+    public function upVotes(): self
+    {
+        $this->votes++;
+        return $this;
+    }
+
+    public function downVotes(): self
+    {
+        $this->votes--;
+        return $this;
+    }
+
     /**
      * @return Collection|Post[]
      */
