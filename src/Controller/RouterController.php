@@ -101,4 +101,21 @@ class RouterController extends AbstractController
 
         return $this->redirectToRoute('app_post', ["id" => $post->getId()]);
     }
+
+    /**
+     * @Route("/me", name="app_editUser")
+     * @param Request $request
+     * @return Response
+     */
+    public function editUser(Request $request): Response
+    {
+
+        return $this->render('Pages/edit-user.html.twig', ["user" => array(
+            'email' => 'email@email.com',
+            'password' => 'password',
+            'phone' => '0618171714',
+            'isAdmin' => true,
+            'name'=> 'name'
+        )]);
+    }
 }
