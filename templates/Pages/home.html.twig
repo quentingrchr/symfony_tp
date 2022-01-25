@@ -6,7 +6,7 @@
 
 
 {% block body %}
-    <h1>Posts: {{  posts|length }}</h1>
+    <h1 class="">Posts: {{  posts|length }}</h1>
     <table class="table">
         <thead>
         <tr>
@@ -21,11 +21,25 @@
         </tr>
         </thead>
         <tbody>
+        <div class="d-flex p-2 bd-highlight justify-content-center">
+            <image src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width="200px" height="auto" class="mr-4" />
+            <div class="d-flex flex-column">
+                <div class="d-flex">
+                    <h5 class="bold">Titre de l'annonce</h5>
+                    <h5>Prix€</h5>
+                </div>
+                <p>Catégorie de l'annonce</p>
+                <p>Texte de l'annonce</p>
+                <div class="d-flex">
+                    <p>Date de publication</p>
+                    <p>Publié par [["Prénom"]]</p>
+                </div>
+            </div>
+        </div>
             {% for post in posts  %}
                 {% set nameArray =  post.author.name|split('.') %}
                 {% set firstName = nameArray[0] %}
                 {% set lastName = nameArray|length > 1 ?  nameArray[1] : "" %}
-
                 <tr>
                     <td>{{ post.title }}</td>
                     <td>{{ post.category.name }}</td>
