@@ -18,4 +18,16 @@ class RouterController extends AbstractController
         $posts = $postRepository->findAllPostsOrderedByNewest();
         return $this->render('Pages/home.html.twig', ["posts" => $posts]);
     }
+
+    /**
+     * @Route("/post/{id}", name="app_post")
+     * @return response
+     */
+    public function postPage(string $id, PostRepository $postRepository) :Response
+    {
+        $post = $postRepository->findOnePostById($id);
+        return $this->render('Pages/post.html.twig', ["post" => $post]);
+
+
+    }
 }
