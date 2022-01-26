@@ -45,7 +45,7 @@
                         <p>Publiée le {{ post.createdAt|date('d/m/Y') }}</p>
                         <p>Publié par {{ firstName|capitalize }} {{ lastName|capitalize }}</p>
                     </div>
-                    <a class="btn btn-primary" href="{{ path('app_single_post', {id: post.id}) }}">
+                    <a class="btn btn-primary" href="{{ path('app_post', {id: post.id}) }}">
                         Go to announce
                     </a>
                 </div>
