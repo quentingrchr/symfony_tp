@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Answer;
+use App\Entity\Question;
 use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Post;
@@ -92,7 +94,7 @@ class RouterController extends AbstractController
     }
 
     /**
-     * @Route("new-post/add", name="app_addPost")
+     * @Route("new-post/add", name="app_addPost", methods={"POST"})
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @return Response
@@ -151,6 +153,65 @@ class RouterController extends AbstractController
                 'id' => $postId
             ]);
         }
+    }
+
+    /**
+     * @Route ("question/{id}/add", name="app_questionAdd", methods={"POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function addQuestion(Request $request, EntityManagerInterface $entityManager, string $id)
+    {
+        $userId = 45;
+        $postId= $id;
+        $content = $request->request->get('content');
+
+        /**
+         * todo: check if user Id (JWT)
+         */
+
+        if($content) {
+            $user = $entityManager->getReference(User::class, $userId);
+            $post = $entityManager->getReference(Post::class, $postId);
+            $question = (new Question())
+                ->setContent($content)
+                ->setAuthor($user)
+                ->setPost($post);
+            $entityManager->persist($question);
+            $entityManager->flush();
+
+        }
+
+        return $this->redirectToRoute('app_post', [
+            'id' => $postId
+        ]);
+    }
+
+    /**
+     * @Route ("anwser/{id}/add", name="app_answerAdd", methods={"POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function addAnwser(Request $request, EntityManagerInterface $entityManager, string $id): RedirectResponse
+    {
+        $content = $request->request->get('content');
+        $postId = $request->request->get('postId');
+        $questionId= $id;
+
+        if($content) {
+           $question = $entityManager->getReference(Question::class, $questionId);
+           $answer = (new Answer())->setContent($content)->setQuestion($question);
+            $entityManager->persist($answer);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_post', [
+            'id' => $postId
+        ]);
     }
 
     /**
