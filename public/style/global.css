@@ -1,3 +1,50 @@
+/* VARIABLE CSS */
+:root {
+  --primary: #7749F8;
+  --green: #28A745;
+  --red: #DC3545;
+  --dark:#343A40;
+  --gray: #DEE2E6;
+  --light-gray: #ABB5BE;
+}
+
+.primary-color {
+  color: var(--primary);
+}
+.primary-bg {
+  background-color: var(--primary);
+}
+.success-color {
+  color: var(--green);
+}
+.success-bg {
+  backgorund-color: var(--green);
+}
+.warning-color  {
+  color: var(--red);
+}
+.warning-bg {
+  background-color: var(--red);
+}
+.dark-color {
+  color: var(--dark);
+}
+.dark-bg {
+  background-color: var(--dark);
+}
+.gray-color {
+  color: var(--gray);
+}
+.gray-bg {
+  background-color: var(--gray)
+}
+.lightgray-color {
+  color: var(--light-gray);
+}
+.lightgray-bg {
+  background-color: var(--light-gray)
+}
+
 .container {
   width: 800px;
   background-color: lightgray;
