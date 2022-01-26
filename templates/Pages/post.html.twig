@@ -24,7 +24,7 @@
                      {% for key, image in post.images %}
                         {% set activeClass = key == 0 ? "active" : "" %}
                         <div class="carousel-item {{ activeClass }}">
-                           <img class="d-block"  src="{{ image }}" >
+                           <img class="d-block w-100"  src="{{ image }}" >
                         </div>
                      {% endfor %}
                   </div>
