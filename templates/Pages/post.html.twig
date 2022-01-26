@@ -63,7 +63,7 @@
             </div>
             <div class="questionsContainer mt-5">
                {% if post.questions|length > 0 %}
-                  <p class="btn btn-dark w-100">Questions</p>
+                  <p class="btn btn-secondary w-100">Questions</p>
                   {% for key, question in post.questions %}
                      {% set nameArray =  question.author.name|split('.') %}
                      {% set firstNameQ = nameArray[0] %}
