@@ -27,14 +27,15 @@
     <header>
         <ul class="nav nav-pills px-4 py-2 mb-5">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Posts</a>
+                <a href="{{ path('app_newPost') }}" class="nav-link" href="#">Create Post</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Create Post</a>
+                <a href="{{ path('app_signUp') }}" class="nav-link" href="#">Sign Up</a>
             </li>
+            {# TODO: set link path #}
             <li class="nav-item">
                 <a class="nav-link" href="#">Login</a>
             </li>

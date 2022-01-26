@@ -154,10 +154,7 @@ class RouterController extends AbstractController
     {
         $post = $postRepository->findOnePostById($id);
         return $this->render('Pages/post.html.twig', ["post" => $post]);
-
-
     }
-
 
     /**
      * @Route("/post/{id}/vote", name="app_post_vote", methods={"POST"})
