@@ -25,20 +25,24 @@
         {% endblock %}
     </head>
     <header>
-        <ul class="nav nav-pills px-4 py-2 mb-5">
+        <ul class="d-flex nav nav-pills px-4 py-2 mb-5">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/"><p class="h5">Le côté anguleux</p></a>
             </li>
             <li class="nav-item">
-                <a href="{{ path('app_newPost') }}" class="nav-link" href="#">Create Post</a>
+                <a href="{{ path('app_newPost') }}" class="nav-link" href="#">
+                    <button href="{{ path('app_newPost') }}" type="button" class="btn btn-primary">Poster une annonce</button>
+                </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ path('app_signUp') }}" class="nav-link" href="#">Sign Up</a>
-            </li>
-            {# TODO: set link path #}
-            <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
-            </li>
+            <div class"d-flex" id="d-flex">
+                <div class="nav-item">
+                    <a href="{{ path('app_signUp') }}" class="nav-link" href="#">Sign Up</a>
+                </div>
+                {# TODO: set link path #}
+                <div class="nav-item">
+                    <a href="{{ path('app_logIn') }}" class="nav-link" href="#">Login</a>
+                </div>
+            </div>
         </ul>
         {% block header %}{% endblock %}
     </header>

@@ -40,6 +40,15 @@ class RouterController extends AbstractController
     }
 
     /**
+     * @Route("/log-in", name="app_logIn")
+     * @return Response
+     */
+    public function logInPage() :Response
+    {
+        return $this->render('Pages/log-in.html.twig');
+    }
+
+    /**
      * @Route("/user", name="app_newUser", methods={"POST"})
      * @param Request $request
      * @param EntityManagerInterface $entityManager
