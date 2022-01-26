@@ -1,13 +1,14 @@
 /* VARIABLE CSS */
 :root {
-  --primary: #7749F8;
-  --green: #28A745;
-  --red: #DC3545;
-  --dark:#343A40;
-  --gray: #DEE2E6;
-  --light-gray: #ABB5BE;
+  --primary: #7749f8;
+  --green: #28a745;
+  --red: #dc3545;
+  --dark: #343a40;
+  --gray: #dee2e6;
+  --light-gray: #abb5be;
 }
 
+/* VARIABLES PERSOS PAR CLASSE */
 .primary-color {
   color: var(--primary);
 }
@@ -18,9 +19,9 @@
   color: var(--green);
 }
 .success-bg {
-  backgorund-color: var(--green);
+  background-color: var(--green);
 }
-.warning-color  {
+.warning-color {
   color: var(--red);
 }
 .warning-bg {
@@ -36,14 +37,16 @@
   color: var(--gray);
 }
 .gray-bg {
-  background-color: var(--gray)
+  background-color: var(--gray);
 }
 .lightgray-color {
   color: var(--light-gray);
 }
 .lightgray-bg {
-  background-color: var(--light-gray)
+  background-color: var(--light-gray);
 }
+
+/* CLASSES PERSOS */
 
 .container {
   width: 800px;
@@ -52,4 +55,18 @@
 
 .spc-btw {
   justify-content: space-between;
+}
+
+.nav {
+  background-color: var(--dark);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-link {
+  color: var(--gray) !important;
+}
+
+#d-flex {
+  display: flex !important;
 }
