@@ -7,13 +7,13 @@
 {% block body %}
     <div class="container align-items-center mt-5 p-5">
         <h1 class="text-center mb-5">Log in</h1>
-        {% if error is defined %}
+        {% if error %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Le mail ou le mot de passe est incorrect</strong> {{ message }}
+                <strong>Error</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endif %}
-        <form class="m-auto" style="max-width: 600px"  method="POST" action="{{path('app_homePage')}}">
+        <form class="m-auto" style="max-width: 600px"  method="post" >
             <div class="form-group mb-5">
                 <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
