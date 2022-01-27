@@ -35,13 +35,25 @@
                 </a>
             </li>
             <div class"d-flex" id="d-flex">
+                {% if is_granted('ROLE_USER') %}
+
                 <div class="nav-item">
-                    <a href="{{ path('app_signUp') }}" class="nav-link" href="#">Sign Up</a>
+                    <a href="{{ path('app_profile') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}disabled opacity-50{% endif %}" href="#">Profile</a>
                 </div>
-                {# TODO: set link path #}
+                <div class="nav-item nav-pills">
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger" href="#">Logout</a>
+                </div>
+
+                {% else %}
+
                 <div class="nav-item">
-                    <a href="{{ path('app_logIn') }}" class="nav-link" href="#">Login</a>
+                    <a href="{{ path('app_signup') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_signup' %}disabled opacity-50{% endif %}" href="#">Sign Up</a>
                 </div>
+                <div class="nav-item">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
+                </div>
+
+                {% endif %}
             </div>
         </ul>
         {% block header %}{% endblock %}

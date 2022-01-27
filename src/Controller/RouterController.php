@@ -33,54 +33,13 @@ class RouterController extends AbstractController
     }
 
     /**
-     * @Route("/sign-up", name="app_signUp")
+     * @Route("/sign-up", name="app_signup", methods={"GET"}))
+     *
      * @return Response
      */
     public function signUpPage() :Response
     {
         return $this->render('Pages/sign-up.html.twig');
-    }
-
-    /**
-     * @Route("/log-in", name="app_logIn")
-     * @return Response
-     */
-    public function logInPage() :Response
-    {
-        return $this->render('Pages/log-in.html.twig');
-    }
-
-    /**
-     * @Route("/user", name="app_newUser", methods={"POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserRepository $userRepository
-     * @return Response
-     */
-    public function createUser(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository) :Response
-    {
-
-        $params = $request->request;
-        $password = $params->get('password');
-        $email = $params->get('email');
-        $emailIsTaken = $userRepository->findOneByEmail($email);
-        /* todo add error notification */
-        if($emailIsTaken) return $this->redirectToRoute('app_homePage');
-
-        $user = (new User())
-            ->setName($params->get('name'))
-            ->setPhone($params->get('phone'))
-            ->setIsAdmin($params->get('is-admin'))
-            ->setEmail($email)
-            ->setPassword(password_hash($password,PASSWORD_BCRYPT))
-            ->setVotes(0);
-
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_homePage');
-
     }
 
     /**
@@ -249,14 +208,14 @@ class RouterController extends AbstractController
     }
 
     /**
-     * @Route("/me", name="app_editUser")
+     * @Route("/profile", name="app_profile")
      * @param Request $request
      * @return Response
      */
     public function editUser(Request $request): Response
     {
 
-        return $this->render('Pages/edit-user.html.twig', ["user" => array(
+        return $this->render('Pages/profile.twig', ["user" => array(
             'email' => 'email@email.com',
             'password' => 'password',
             'phone' => '0618171714',
