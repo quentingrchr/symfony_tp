@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="container align-items-center mt-5 pt-5 pb-5">
+        <h1 class="text-center mb-5">Edit profile</h1>
+        {% if flash is defined %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success</strong> {{ flash }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <form class="m-auto" style="max-width: 600px"  method="POST" action="{{ path('app_update_user', { 'id': app.user.id }) }}">
+            <div class="form-group mb-5">
+                <input type="email" class="form-control" name="email" id="email" value="{{ app.user.email }}" data-old-value="{{ app.user.email }}" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group mb-5">
+                <input type="text" class="form-control" value="{{ app.user.name }}" data-old-value="{{ app.user.name }}" name="name" id="name" placeholder="Name">
+            </div>
+            <div class="form-group mb-5">
+                <input type="phone" class="form-control" value="{{ app.user.phone }}" data-old-value="{{ app.user.phone }}" name="phone" id="phone" placeholder="Phone (Optionnal)">
+            </div>
+            <div class="form-check mx-auto mb-5" style="width: fit-content;">
+                <input type="checkbox" name="is-admin" class="form-check-input" id="is-admin" {% if (is_granted('ROLE_ADMIN')) %} checked {% endif %} data-old-value="{% if (is_granted('ROLE_ADMIN')) %} checked {% endif %}">
+                <label class="form-check-label" for="is-admin">Admin</label>
+            </div>
+            <div class="form-group d-flex mb-5">
+                <button class="d-flex btn btn-danger m-auto" style="width: fit-content; " type="submit" data-reset-form-value >Cancel</button>
+                <button class="d-flex btn btn-secondary m-auto" style="width: fit-content; " type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
