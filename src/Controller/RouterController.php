@@ -34,7 +34,7 @@ class RouterController extends AbstractController
     }
 
     /**
-     * @Route("/sign-up", name="app_signup", methods={"GET"}))
+     * @Route("/sign-up", name="app_signup", methods={"GET"})
      *
      * @return Response
      */
