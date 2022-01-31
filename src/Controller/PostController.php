@@ -206,7 +206,7 @@ class PostController extends AbstractController
         if($redirectId) {
             return $this->redirect($this->generateUrl($redirectRoute, ["id" => $redirectId]));
         } else {
-            return $this->redirect($this->generateUrl($redirectRoute));
+            return $this->redirect($this->generateUrl($redirectRoute, ["id" => $redirectId]));
         }
 
     }

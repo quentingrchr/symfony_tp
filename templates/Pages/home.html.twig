@@ -6,6 +6,11 @@
 
 
 {% block body %}
+        {% if infoMessage is defined %}
+            <div class="alert alert-success" role="alert">
+                {{ infoMessage }}
+            </div>
+        {% endif %}
         {% if app.user %}
         <div class="h2 text-center mb-5">Hello {{app.user.name}} 👋</div>
         {% endif %}
