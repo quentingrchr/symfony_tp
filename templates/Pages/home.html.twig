@@ -12,7 +12,7 @@
                 {% set nameArray =  post.author.name|split('.') %}
                 {% set firstName = nameArray[0] %}
                 {% set lastName = nameArray|length > 1 ?  nameArray[1] : "" %}
-                <div class="d-flex p-3 bd-highlight rounded container mb-5 align-items-center" >
+                <div class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
                     <div id="carouselExampleControls" class="carousel slide mr-4" data-ride="carousel" style="width: 50%">
                         <div class="carousel-inner" >
                         {% for key, image in post.images %}

@@ -10,47 +10,46 @@
 
 /* VARIABLES PERSOS PAR CLASSE */
 .primary-color {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 .primary-bg {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
 }
 .success-color {
-  color: var(--green);
+  color: var(--green) !important;
 }
 .success-bg {
-  background-color: var(--green);
+  background-color: var(--green) !important;
 }
 .warning-color {
-  color: var(--red);
+  color: var(--red) !important;
 }
 .warning-bg {
-  background-color: var(--red);
+  background-color: var(--red) !important;
 }
 .dark-color {
-  color: var(--dark);
+  color: var(--dark) !important;
 }
 .dark-bg {
-  background-color: var(--dark);
+  background-color: var(--dark) !important;
 }
 .gray-color {
-  color: var(--gray);
+  color: var(--gray) !important;
 }
 .gray-bg {
-  background-color: var(--gray);
+  background-color: var(--gray) !important;
 }
 .lightgray-color {
-  color: var(--light-gray);
+  color: var(--light-gray) !important;
 }
 .lightgray-bg {
-  background-color: var(--light-gray);
+  background-color: var(--light-gray) !important;
 }
 
 /* CLASSES PERSOS */
 
 .container {
   width: 800px;
-  background-color: lightgray;
 }
 
 .spc-btw {

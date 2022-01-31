@@ -104,8 +104,24 @@ class RouterController extends AbstractController
         $price = $request->request->get('price');
         $condition = $request->request->get('condition');
         $description = $request->request->get('description');
-        $image = $request->request->get('image');
+        $image = $request->files->get('images');
         $publication = $request->request->get('publication');
+
+
+        dd($request->files);
+
+        if($_FILES['post_image'] && strlen($_FILES['image']['name']) > 0){
+            $files = $_FILES['post_image'];
+        }
+
+        $tempName = $file['tmp_name'];
+        $fileName = uniqid() . $file['name'];
+        $size = $file['size'];
+        $from = $tempName;
+        $to = $_SERVER['DOCUMENT_ROOT'] .'/uploads/'. $fileName;
+        move_uploaded_file($from,  $to);
+
+        dd($_FILES);
 
 
         if (!$title || !$categoryId || $categoryId === '0' || !$price || !$condition || !$description || !$publication)
