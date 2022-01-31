@@ -55,11 +55,13 @@
                      <p class="mb-0">Published by {{ firstName|capitalize }} {{ lastName|capitalize }} </p>
                      <div class="d-flex flex-column align-items-center mt-0" >
                         <span class="text-muted h5"><u>Author rating</u></span>
+                        {% if((app.user and (post.author.id != app.user.id)) or (is_granted('ROLE_ADMIN')) ) %}
                         <form action="{{ path('app_post_vote', {id: post.id}) }}" class="d-flex align-items-center" method="post" >
                            <button class="btn btn-primary btn-sm" name="vote" value="up">👍</button>
                            <span class="badge badge-secondary mr-2 ml-2">{{ post.author.votes }}</span>
                            <button class="btn btn-primary btn-sm" name="vote" value="down">👎</button>
                         </form>
+                           {% endif %}
                      </div>
                   </div>
                </div>
@@ -70,7 +72,11 @@
                         {% if ((app.user and (post.author.id == app.user.id)) or (is_granted('ROLE_ADMIN')) ) %}
                            <div class="d-flex justify-content-between">
                                  <a class="btn btn-danger" style="width: 45%" href="{{ path('app_post_delete', {id: post.id}) }}">Delete post</a>
-                                 <a class="btn btn-success" style="width: 45%" href="" >{{ post.isPublished ? "Turn to draft" : "Publish" }}</a>
+                                 <form action="{{ path('app_post_status', {id: post.id}) }}" style="width: 45%" method="post">
+                                    <button class="btn {{post.isPublished ? "btn-warning" : "btn-success text-white" }}" method="post" style="width: 100%" name="status" value="{{ post.isPublished ? "onDraft" : "published" }}" >{{ post.isPublished ? "Turn to draft" : "Publish" }}</button>
+                                    <input style="display: none" name="redirectTo" value="app_post" />
+                                    <input style="display: none" name="redirectID" value="{{ post.id }}" />
+                                 </form>
                            </div>
                         {% endif %}
                         {% if app.user and (post.author.id != app.user.id)%}
