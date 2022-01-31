@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
             $number = rand(1, 3);
             $images = [];
             for ($i = 0; $i <= $number; $i++) {
-                $images[] = PostFactory::faker()->imageUrl();
+                $images[] = 'https://source.unsplash.com/1600x900/';
             }
             return ["images" => $images];
         });
