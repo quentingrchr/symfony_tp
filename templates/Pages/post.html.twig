@@ -11,8 +11,11 @@
 
    {% block body %}
       {% if(post is null) %}
-         <p>Sorry, this post doesn't exists</p>
-         <a href="{{ path('app_home_page') }}" class="btn btn-primary my-5">Back to home page</a>
+         <p style="display: flex; justify-content: center; text-align: center">Sorry, this post doesn't exists</p>
+         <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
+      {% elseif((not app.user and (post.author.id != app.user.id)) or is_granted('ROLE_ADMIN'))  %}
+         <p style="display: flex; justify-content: center; text-align: center">This post in not published <br> If tout want to manage your post, please login </p>
+         <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
       {% else %}
          {% set nameArray = post.author.name|split('.') %}
          {% set firstName = nameArray[0] %}
@@ -24,7 +27,7 @@
                      {% for key, image in post.images %}
                         {% set activeClass = key == 0 ? "active" : "" %}
                         <div class="carousel-item {{ activeClass }}">
-                           <img class="d-block w-100"  src="{{ asset(image) }}" >
+                           <img class="d-block w-100"  src="{{ image }}" >
                         </div>
                      {% endfor %}
                   </div>
@@ -61,21 +64,20 @@
                   </div>
                </div>
             </div>
-            <div class="questionsContainer mt-5">
-
-               <tr>
-                  <th>
-                     <div style="display: flex; gap: 24px;">
-                        <a class="btn primary-bg" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
-                           Post a question to the seller
-                        </a>
+            <div class="questionsContainer mt-3">
+               {% if(app.user) %}
+                  <tr>
+                     <th>
                         {% if ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN')) ) %}
-                        <form  action="{{ path("app_post_delete") }}" method="delete">
-                           <button class="btn btn-danger" type="submit">
-                              Delete post
-                           </button>
-                        </form>
-
+                           <div class="d-flex justify-content-between">
+                                 <a class="btn btn-danger" style="width: 45%" href="{{ path("app_post_delete") }}">Delete post</a>
+                                 <a class="btn btn-success" style="width: 45%" href="" >{{ post.isPublished ? "Turn to draft" : "Publish" }}</a>
+                           </div>
+                        {% endif %}
+                        {% if (post.author.id != app.user.id)%}
+                           <a class="btn btn-primary mt-2" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                              Post a question to the seller
+                           </a>
                         {% endif %}
                      </div>
                      <div class="collapse" id="collapseQuestionAsk">
@@ -105,20 +107,22 @@
                            <tr>
                               <th>
                                  <p>{{ question.content }}</p>
-                                 <p>
-                                    <a class="btn primary-bg" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                       <small>Post an answer</small>
-                                    </a>
-                                 </p>
-                                 <div class="collapse" id="collapsePostAnswer{{ key }}">
-                                    <form action="{{ path('app_answer_add', {id: question.id}) }}" method="post">
-                                       <div class="form-group">
-                                          <textarea name="content" required class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="your answer"></textarea>
-                                       </div>
-                                       <input name="postId" value="{{ post.id }}" style="display: none">
-                                       <button class="btn btn-success" type="submit"><small>Submit</small></button>
-                                    </form>
-                                 </div>
+                                 {% if ( app.user and ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN'))) ) %}
+                                    <p>
+                                       <a class="btn btn-primary" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                          <small>Post an answer</small>
+                                       </a>
+                                    </p>
+                                    <div class="collapse" id="collapsePostAnswer{{ key }}">
+                                       <form action="{{ path('app_answer_add', {id: question.id}) }}" method="post">
+                                          <div class="form-group">
+                                             <textarea name="content" required class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="your answer"></textarea>
+                                          </div>
+                                          <input name="postId" value="{{ post.id }}" style="display: none">
+                                          <button class="btn btn-success" type="submit"><small>Submit</small></button>
+                                       </form>
+                                    </div>
+                                 {% endif %}
                               </th>
 
                            </tr>
