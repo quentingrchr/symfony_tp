@@ -13,7 +13,7 @@
       {% if(post is null) %}
          <p style="display: flex; justify-content: center; text-align: center">Sorry, this post doesn't exists</p>
          <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
-      {% elseif((not app.user and (app.user and (post.author.id != app.user.id))) or is_granted('ROLE_ADMIN'))  %}
+      {% elseif(not post.isPublished and not is_granted('ROLE_ADMIN') and post.author.id != app.user.id)  %}
          <p style="display: flex; justify-content: center; text-align: center">This post in not published <br> If tout want to manage your post, please login </p>
          <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
       {% else %}
@@ -74,7 +74,7 @@
                            </div>
                         {% endif %}
                         {% if app.user and (post.author.id != app.user.id)%}
-                           <a class="btn btn-primary mt-2" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                           <a class="w-100 btn btn-primary mt-4" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
                               Post a question to the seller
                            </a>
                         {% endif %}

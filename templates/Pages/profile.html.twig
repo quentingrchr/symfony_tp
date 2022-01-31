@@ -34,5 +34,21 @@
                 <button class="d-flex btn btn-secondary m-auto" style="width: fit-content; " type="submit">Update</button>
             </div>
         </form>
+        {% if(app.user.posts and app.user.posts|length > 0) %}
+            <h1 class="text-center mb-5">Your posts</h1>
+                {% for post in app.user.posts %}
+                    {% include 'Components/postCard.html.twig' with {
+                        fromProfile: true,
+                        title: post.title,
+                        images: post.images,
+                        price: post.price,
+                        category: post.category,
+                        condition: post.condition,
+                        createdAt: post.createdAt,
+                        name: post.author.name,
+                        isPublished: post.isPublished
+                    } %}
+                {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}

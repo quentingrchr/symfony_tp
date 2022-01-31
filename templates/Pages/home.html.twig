@@ -11,46 +11,16 @@
         {% endif %}
         <div class="h4 text-center mb-5">Liste des annonces</div>
         {% for post in posts  %}
-                {% set nameArray =  post.author.name|split('.') %}
-                {% set firstName = nameArray[0] %}
-                {% set lastName = nameArray|length > 1 ?  nameArray[1] : "" %}
-                <div class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
-                    <div id="carouselExampleControls" class="carousel slide mr-4" data-ride="carousel" style="width: 50%">
-                        <div class="carousel-inner" >
-                        {% for key, image in post.images %}
-                            {% set activeClass = key == 0 ? "active" : "" %}
-                            <div class="carousel-item {{ activeClass }}" >
-                                <img class="d-block w-100" src="{{ asset(image) }}" >
-                            </div>
-                        {% endfor %}
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                </div>
-                <div class="d-flex justify-content-space-between flex-column">
-                    <div class="d-flex spc-btw">
-                        <h3 class="bold">{{ post.title }}</h3>
-                        <h3>{{ post.price }}€</h3>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <p class="h6 badge badge-pill badge-warning mr-4 p-2">{{ post.category.name }}</p>
-                        <p class="h6 badge badge-success p-1">{{ post.condition }}</p>
-                    </div>
-                    <p class="small">Aspernatur maxime vitae impedit enim voluptates. Quibusdam quasi aut tempore modi quos. Nam saepe nihil expedita voluptatem eligendi rerum.</p>
-                    <div class="d-flex spc-btw">
-                        <p>Publiée le {{ post.createdAt|date('d/m/Y') }}</p>
-                        <p>Publié par {{ firstName|capitalize }} {{ lastName|capitalize }}</p>
-                    </div>
-                    <a class="btn primary-bg" href="{{ path('app_post', {id: post.id}) }}">
-                        Go to announce
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
+            {% include 'Components/postCard.html.twig' with {
+                fromProfile: false,
+                title: post.title,
+                images: post.images,
+                price: post.price,
+                category: post.category,
+                condition: post.condition,
+                createdAt: post.createdAt,
+                name: post.author.name,
+                isPublished: post.isPublished
+            } %}
+        {% endfor %}
 {% endblock %}
