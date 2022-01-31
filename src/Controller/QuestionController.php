@@ -23,28 +23,30 @@ class QuestionController extends AbstractController
      */
     public function addQuestion(Request $request, EntityManagerInterface $entityManager, string $id)
     {
-        $userId = 45;
-        $postId= $id;
-        $content = $request->request->get('content');
+        $loggedUser = $this->getUser();
+        if($loggedUser) {
+            $userId = $loggedUser->getId();
+            $postId= $id;
+            $content = $request->request->get('content');
 
-        /**
-         * todo: check if user Id (JWT)
-         */
+            if($content) {
+                $user = $entityManager->getReference(User::class, $userId);
+                $post = $entityManager->getReference(Post::class, $postId);
+                $question = (new Question())
+                    ->setContent($content)
+                    ->setAuthor($user)
+                    ->setPost($post);
+                $entityManager->persist($question);
+                $entityManager->flush();
 
-        if($content) {
-            $user = $entityManager->getReference(User::class, $userId);
-            $post = $entityManager->getReference(Post::class, $postId);
-            $question = (new Question())
-                ->setContent($content)
-                ->setAuthor($user)
-                ->setPost($post);
-            $entityManager->persist($question);
-            $entityManager->flush();
+            }
 
+            return $this->redirectToRoute('app_post', [
+                'id' => $postId
+            ]);
+        } else {
+            return $this->redirectToRoute('app_home_page');
         }
 
-        return $this->redirectToRoute('app_post', [
-            'id' => $postId
-        ]);
     }
 }
