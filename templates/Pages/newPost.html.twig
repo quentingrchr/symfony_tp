@@ -9,11 +9,11 @@
         <h1 class="h2 text-center mb-5">You will post an anouncement</h1>
         <form method="POST" action="{{ path("app_add_post") }}" enctype="multipart/form-data">
             <div class="form-floating mb-3">
-                <input name="title" id="title" placeholder="Announcement title" type="text" class="form-control" />
+                <input name="title" id="title" placeholder="Announcement title" type="text" class="form-control" required/>
                 <label for="title">Annnouncement title *</label>
             </div>
             <div class="form-floating mb-3">
-                <select name="category" id="category" class="form-select" aria-label="Default select example">
+                <select name="category" id="category" class="form-select" aria-label="Default select example" required>
                     <option value="0" selected>Categories</option>
                     {% for categorie in categories %}
                         <option value="{{ categorie.id }}">{{ categorie.name|capitalize }}</option>
@@ -22,7 +22,7 @@
                 <label for="category">Item category *</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="price" id="price" placeholder="Item price (€)" type="text" class="form-control" />
+                <input name="price" id="price" placeholder="Item price (€)" type="text" class="form-control" required/>
                 <label for="price">Item price (€) *</label>
             </div>
             <div class="d-flex flex-column gap-1 rounded mb-3" style="padding: 1rem 0.75rem; border:1px solid #ced4da">
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <textarea name="description" id="description" placeholder="Description" type="text" class="form-control" row="3"></textarea>
+                <textarea name="description" id="description" placeholder="Description" type="text" class="form-control" row="3" required></textarea>
                 <label for="description">Item description *</label>
             </div>
             <div class="mb-3">
