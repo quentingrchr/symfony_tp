@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="{{ asset('style/global.css') }}" type="text/css" rel="stylesheet">
         <!-- JavaScript Bundle with Popper -->
+
+        <script defer src="{{ asset('script.js') }}"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -30,18 +32,30 @@
                 <a class="nav-link" href="/"><p class="h5">Le côté anguleux</p></a>
             </li>
             <li class="nav-item">
-                <a href="{{ path('app_newPost') }}" class="nav-link" href="#">
-                    <button href="{{ path('app_newPost') }}" type="button" class="btn primary-bg text-white">Poster une annonce</button>
+                <a href="{{ path('app_new_post') }}" class="nav-link" href="#">
+                    <button href="{{ path('app_new_post') }}" type="button" class="btn btn-primary">Poster une annonce</button>
                 </a>
             </li>
-            <div class"d-flex" id="d-flex">
+            <div class=d-flex" id="d-flex">
+                {% if is_granted('ROLE_USER') %}
+
                 <div class="nav-item">
-                    <a href="{{ path('app_signUp') }}" class="nav-link" href="#">Sign Up</a>
+                    <a href="{{ path('app_profile') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}disabled opacity-50{% endif %}" href="#">Profile</a>
                 </div>
-                {# TODO: set link path #}
+                <div class="nav-item nav-pills">
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger" href="#">Logout</a>
+                </div>
+
+                {% else %}
+
                 <div class="nav-item">
-                    <a href="{{ path('app_logIn') }}" class="nav-link" href="#">Login</a>
+                    <a href="{{ path('app_signup') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_signup' %}disabled opacity-50{% endif %}" href="#">Sign Up</a>
                 </div>
+                <div class="nav-item">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
+                </div>
+
+                {% endif %}
             </div>
         </ul>
         {% block header %}{% endblock %}

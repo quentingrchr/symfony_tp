@@ -12,7 +12,7 @@
    {% block body %}
       {% if(post is null) %}
          <p>Sorry, this post doesn't exists</p>
-         <a href="{{ path('app_homePage') }}" class="btn btn-primary my-5">Back to home page</a>
+         <a href="{{ path('app_home_page') }}" class="btn btn-primary my-5">Back to home page</a>
       {% else %}
          {% set nameArray = post.author.name|split('.') %}
          {% set firstName = nameArray[0] %}
@@ -24,7 +24,7 @@
                      {% for key, image in post.images %}
                         {% set activeClass = key == 0 ? "active" : "" %}
                         <div class="carousel-item {{ activeClass }}">
-                           <img class="d-block"  src="{{ image }}" >
+                           <img class="d-block w-100"  src="{{ image }}" >
                         </div>
                      {% endfor %}
                   </div>
@@ -62,8 +62,34 @@
                </div>
             </div>
             <div class="questionsContainer mt-5">
+
+               <tr>
+                  <th>
+                     <div style="display: flex; gap: 24px;">
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                           Post a question to the seller
+                        </a>
+                        {% if ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN')) ) %}
+                        <form  action="{{ path("app_post_delete") }}" method="delete">
+                           <button class="btn btn-danger" type="submit">
+                              Delete post
+                           </button>
+                        </form>
+
+                        {% endif %}
+                     </div>
+                     <div class="collapse" id="collapseQuestionAsk">
+                        <form action="{{ path("app_question_add", {id: post.id}) }}" method="post">
+                           <div class="form-group">
+                              <textarea required name="content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="your question"></textarea>
+                           </div>
+                           <button class="btn btn-success" type="submit">Submit</button>
+                        </form>
+                     </div>
+                  </th>
+               </tr>
                {% if post.questions|length > 0 %}
-                  <p class="btn btn-secondary w-100">Questions</p>
+                  <p class="btn btn-secondary w-100 mt-4" style="cursor: default">Questions</p>
                   {% for key, question in post.questions %}
                      {% set nameArray =  question.author.name|split('.') %}
                      {% set firstNameQ = nameArray[0] %}
@@ -77,19 +103,36 @@
                         </thead>
                         <tbody>
                            <tr>
-                              <th>{{ question.content }}</th>
+                              <th>
+                                 <p>{{ question.content }}</p>
+                                 <p>
+                                    <a class="btn btn-primary" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                       <small>Post an answer</small>
+                                    </a>
+                                 </p>
+                                 <div class="collapse" id="collapsePostAnswer{{ key }}">
+                                    <form action="{{ path('app_answer_add', {id: question.id}) }}" method="post">
+                                       <div class="form-group">
+                                          <textarea name="content" required class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="your answer"></textarea>
+                                       </div>
+                                       <input name="postId" value="{{ post.id }}" style="display: none">
+                                       <button class="btn btn-success" type="submit"><small>Submit</small></button>
+                                    </form>
+                                 </div>
+                              </th>
+
                            </tr>
                            {% if question.answers|length > 0 %}
                               <tr>
                                  <th>
                                     <p>
                                        <a class="btn btn-secondary" data-toggle="collapse" href="#collapseAnswers{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                          <small>Show answers<span class="ml-3">🔽</span></small>
+                                          <small>Show seller answers<span class="ml-3">🔽</span></small>
                                        </a>
                                     </p>
                                     <div class="collapse" id="collapseAnswers{{ key }}">
                                        {% for answer in question.answers %}
-                                          <div class="card card-body">
+                                          <div class="card card-body mt-1">
                                              <small>
                                                 {{ answer.content }}
                                              </small>

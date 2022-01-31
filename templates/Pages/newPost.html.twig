@@ -7,7 +7,7 @@
 {% block body %}
     <div class="container mt-5 p-4" style="max-width: 600px;">
         <h1 class="h2 text-center mb-5">Vous allez poster une annonce</h1>
-        <form method="POST" action="{{ path("app_addPost") }}">
+        <form method="POST" action="{{ path("app_add_post") }}">
             <div class="form-floating mb-3">
                 <input name="title" id="title" placeholder="Titre de l'annonce" type="text" class="form-control" />
                 <label for="title">Titre de l'annonce *</label>

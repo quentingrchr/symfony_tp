@@ -6,7 +6,9 @@
 
 
 {% block body %}
-        <div class="h2 text-center mb-5">Bonjour Prénom</div>
+        {% if app.user %}
+        <div class="h2 text-center mb-5">Bonjour {{app.user.name}}</div>
+        {% endif %}
         <div class="h4 text-center mb-5">Liste des annonces</div>
         {% for post in posts  %}
                 {% set nameArray =  post.author.name|split('.') %}
