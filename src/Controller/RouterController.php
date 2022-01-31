@@ -27,8 +27,9 @@ class RouterController extends AbstractController
      * @param PostRepository $postRepository
      * @return Response
      */
-    public function homePage(Request $req, PostRepository $postRepository) :Response
+    public function homePage(Request $req, PostRepository $postRepository, CategoryRepository $categoryRepository) :Response
     {
+        $categories = $categoryRepository->findAll();
         $queryParam = $req->query;
         $filterCategory = $queryParam->get('category');
         $posts  = [];
@@ -42,7 +43,11 @@ class RouterController extends AbstractController
             // No filter
             $posts = $postRepository->findAllPostsOrderedByNewest();
         }
-        return $this->render('Pages/home.html.twig', ["posts" => $posts]);
+        return $this->render('Pages/home.html.twig', [
+            "categories" => $categories,
+            "filterCategory" => $filterCategory,
+            "posts" => $posts
+        ]);
     }
 
     /**
