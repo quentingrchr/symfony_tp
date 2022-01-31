@@ -38,14 +38,13 @@ class PostController extends AbstractController
     {
         $user = $entityManager->getReference(User::class, $this->getUser()->getId());
         $userRole = $user->getRoles();
-        
         $title = $request->request->get('title');
         $categoryId = $request->request->get('category');
         $price = $request->request->get('price');
         $condition = $request->request->get('condition');
         $description = $request->request->get('description');
         $files = $request->files->all();
-        $publication = $request->request->get('publication')
+        $publication = $request->request->get('publication');
 
 
         if(in_array("ROLE_ADMIN", $userRole)) {
