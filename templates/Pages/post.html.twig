@@ -56,9 +56,9 @@
                      <div class="d-flex flex-column align-items-center mt-0" >
                         <span class="text-muted h5"><u>Author rating</u></span>
                         <form action="{{ path('app_post_vote', {id: post.id}) }}" class="d-flex align-items-center" method="post" >
-                           <button class="btn btn-primary btn-sm" name="vote" value="up">👍</button>
+                           <button class="btn primary-bg btn-sm" name="vote" value="up">👍</button>
                            <span class="badge badge-secondary mr-2 ml-2">{{ post.author.votes }}</span>
-                           <button class="btn btn-primary btn-sm" name="vote" value="down">👎</button>
+                           <button class="btn btn-danger btn-sm" name="vote" value="down">👎</button>
                         </form>
                      </div>
                   </div>
@@ -74,7 +74,7 @@
                            </div>
                         {% endif %}
                         {% if app.user and (post.author.id != app.user.id)%}
-                           <a class="w-100 btn btn-primary mt-4" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                           <a class="w-100 btn primary-bg mt-4" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
                               Post a question to the seller
                            </a>
                         {% endif %}
@@ -108,7 +108,7 @@
                                  <p>{{ question.content }}</p>
                                  {% if ( app.user and ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN'))) ) %}
                                     <p>
-                                       <a class="btn btn-primary" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                       <a class="btn primary-bg" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                           <small>Post an answer</small>
                                        </a>
                                     </p>
