@@ -60,13 +60,7 @@ class UserController extends AbstractController
     public function profile(Request $request): Response
     {
 
-        return $this->render('Pages/profile.html.twig', ["user" => array(
-            'email' => 'email@email.com',
-            'password' => 'password',
-            'phone' => '0618171714',
-            'isAdmin' => true,
-            'name'=> 'name'
-        )]);
+        return $this->render('Pages/profile.html.twig');
     }
 
     /**
