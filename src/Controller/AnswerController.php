@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
+use App\Entity\Question;
 use Doctrine\ORM\EntityManager;
-use http\Env\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,7 +21,7 @@ class AnswerController extends AbstractController
      * @param string $id
      * @return RedirectResponse
      */
-    public function addAnwser(Request $request, EntityManager $entityManager, string $id): RedirectResponse
+    public function addAnwser(Request $request, EntityManagerInterface $entityManager, string $id): RedirectResponse
     {
         $content = $request->request->get('content');
         $postId = $request->request->get('postId');

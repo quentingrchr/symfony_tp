@@ -13,7 +13,7 @@
       {% if(post is null) %}
          <p style="display: flex; justify-content: center; text-align: center">Sorry, this post doesn't exists</p>
          <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
-      {% elseif((not app.user and (post.author.id != app.user.id)) or is_granted('ROLE_ADMIN'))  %}
+      {% elseif((not app.user and (app.user and (post.author.id != app.user.id))) or is_granted('ROLE_ADMIN'))  %}
          <p style="display: flex; justify-content: center; text-align: center">This post in not published <br> If tout want to manage your post, please login </p>
          <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
       {% else %}
@@ -65,22 +65,21 @@
                </div>
             </div>
             <div class="questionsContainer mt-3">
-               {% if(app.user) %}
                   <tr>
                      <th>
-                        {% if ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN')) ) %}
+                        {% if ((app.user and (post.author.id == app.user.id)) or (is_granted('ROLE_ADMIN')) ) %}
                            <div class="d-flex justify-content-between">
                                  <a class="btn btn-danger" style="width: 45%" href="{{ path("app_post_delete") }}">Delete post</a>
                                  <a class="btn btn-success" style="width: 45%" href="" >{{ post.isPublished ? "Turn to draft" : "Publish" }}</a>
                            </div>
                         {% endif %}
-                        {% if (post.author.id != app.user.id)%}
+                        {% if app.user and (post.author.id != app.user.id)%}
                            <a class="btn btn-primary mt-2" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
                               Post a question to the seller
                            </a>
                         {% endif %}
                      </div>
-                     <div class="collapse" id="collapseQuestionAsk">
+                     <div class="collapse mt-3" id="collapseQuestionAsk">
                         <form action="{{ path("app_question_add", {id: post.id}) }}" method="post">
                            <div class="form-group">
                               <textarea required name="content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="your question"></textarea>
@@ -152,6 +151,7 @@
                {% else %}
                   <p><small><em>No questions here</em></small></p>
                {% endif %}
+
          </div>
       {% endif %}
    {% endblock %}
