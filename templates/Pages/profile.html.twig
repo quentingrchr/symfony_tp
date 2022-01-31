@@ -35,6 +35,24 @@
             </div>
         </form>
         {% if(app.user.posts and app.user.posts|length > 0) %}
+        <div id="your-post">
+            <div>
+                <p>Filter</p>
+                <form class="form-check form-switch">
+                    <input value="draft" class="form-check-input" type="checkbox" id="draft" checked>
+                    <label class="form-check-label" for="draft">
+                        Drafts
+                        <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished)|length }}</span>
+                    </label>
+                </form>
+                <form class="form-check form-switch">
+                    <input class="form-check-input" value="published" type="checkbox" id="published" checked>
+                    <label class="form-check-label" for="published">
+                        Published
+                        <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished == false)|length }}</span>
+                    </label>
+                </form>
+            </div>
             <h1 class="text-center mb-5">Your posts</h1>
                 {% for post in app.user.posts %}
                     {% include 'Components/postCard.html.twig' with {
@@ -49,6 +67,7 @@
                         isPublished: post.isPublished
                     } %}
                 {% endfor %}
+        </div>
         {% endif %}
     </div>
 {% endblock %}
