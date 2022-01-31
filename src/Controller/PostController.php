@@ -153,7 +153,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/post", name="app_post_delete", methods={"DELETE"})
+     * @Route("/post/delete/{id}", name="app_post_delete", methods={"GET"})
      * @param Post $post
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -167,12 +167,16 @@ class PostController extends AbstractController
         can't use a link
         */
         $loggedUser = $this->getUser();
-        dd($post);
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->remove($post);
-        $em->flush();
+        $isAuthor = $this->getUser()->getId() == $post->getAuthor()->getId();
+        $isAdmin = in_array('ROLE_ADMIN',$loggedUser->getRoles());
+        if($isAdmin || $isAuthor){
+            $em->remove($post);
+            $em->flush();
+            return $this->redirect($this->generateUrl('app_home_page'));
 
-        dd($post);
+        } else {
+            return $this->redirect($this->generateUrl('app_home_page'));
+        }
 
     }
 

@@ -70,7 +70,7 @@
                            Post a question to the seller
                         </a>
                         {% if ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN')) ) %}
-                        <form  action="{{ path("app_post_delete") }}" method="delete">
+                        <form  action="{{ path('app_post_delete', {id: post.id}) }}" method="delete">
                            <button class="btn btn-danger" type="submit">
                               Delete post
                            </button>
