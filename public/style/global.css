@@ -40,3 +40,7 @@
 #d-flex {
   display: flex !important;
 }
+
+.hidden[data-draft]{
+  display: none !important;
+}
