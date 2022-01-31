@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PostRepository;
 use App\Repository\CategoryRepository;
+use PhpParser\Node\Stmt\Return_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ use DateTime;
 class RouterController extends AbstractController
 {
     /**
-     * @Route("/", name="app_homePage")
+     * @Route("/", name="app_home_page")
      * @param PostRepository $postRepository
      * @return Response
      */
@@ -42,185 +43,4 @@ class RouterController extends AbstractController
         return $this->render('Pages/sign-up.html.twig');
     }
 
-    /**
-     * @Route("new-post", name="app_newPost")
-     * @return Response
-     */
-    public function newPost(CategoryRepository $categoryRepository) :Response
-    {
-        $categories = $categoryRepository->findAll();
-        return $this->render('Pages/newPost.html.twig', ["categories" => $categories]);
-    }
-
-    /**
-     * @Route("new-post/add", name="app_addPost", methods={"POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return Response
-     */
-    public function addPost(Request $request, EntityManagerInterface $entityManager): RedirectResponse
-    {
-        $title = $request->request->get('title');
-        $categoryId = $request->request->get('category');
-        $price = $request->request->get('price');
-        $condition = $request->request->get('condition');
-        $description = $request->request->get('description');
-        $image = $request->request->get('image');
-        $publication = $request->request->get('publication');
-
-
-        if (!$title || !$categoryId || $categoryId === '0' || !$price || !$condition || !$description || !$publication)
-        {
-            dd($request->request);
-        }
-        else
-        {
-            $user = $entityManager->getReference(User::class, 8);
-
-            $intCategoryId = intval($categoryId);
-            $category = $entityManager->getReference(Category::class, $intCategoryId);
-
-            $created_at = new DateTime();
-
-            $floatPrice = floatval($price);
-
-            if ($publication === "on")
-            {
-                $boolPublication = true;
-            }
-            else
-            {
-                $boolPublication = false;
-            }
-
-            $post = (new Post())
-                ->setAuthor($user)
-                ->setCategory($category)
-                ->setCondition($condition)
-                ->setPrice($floatPrice)
-                ->setTitle($title)
-                ->setCreatedAt($created_at)
-                ->setDescription($description)
-                ->setIsPublished($boolPublication)
-                ->setImages($image);
-
-            $entityManager->persist($post);
-            $entityManager->flush();
-            $postId = $post->getId();
-
-            return $this->redirectToRoute('app_post', [
-                'id' => $postId
-            ]);
-        }
-    }
-
-    /**
-     * @Route ("question/{id}/add", name="app_questionAdd", methods={"POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param string $id
-     * @return RedirectResponse
-     */
-    public function addQuestion(Request $request, EntityManagerInterface $entityManager, string $id)
-    {
-        $userId = 45;
-        $postId= $id;
-        $content = $request->request->get('content');
-
-        /**
-         * todo: check if user Id (JWT)
-         */
-
-        if($content) {
-            $user = $entityManager->getReference(User::class, $userId);
-            $post = $entityManager->getReference(Post::class, $postId);
-            $question = (new Question())
-                ->setContent($content)
-                ->setAuthor($user)
-                ->setPost($post);
-            $entityManager->persist($question);
-            $entityManager->flush();
-
-        }
-
-        return $this->redirectToRoute('app_post', [
-            'id' => $postId
-        ]);
-    }
-
-    /**
-     * @Route ("anwser/{id}/add", name="app_answerAdd", methods={"POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param string $id
-     * @return RedirectResponse
-     */
-    public function addAnwser(Request $request, EntityManagerInterface $entityManager, string $id): RedirectResponse
-    {
-        $content = $request->request->get('content');
-        $postId = $request->request->get('postId');
-        $questionId= $id;
-
-        if($content) {
-           $question = $entityManager->getReference(Question::class, $questionId);
-           $answer = (new Answer())->setContent($content)->setQuestion($question);
-            $entityManager->persist($answer);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_post', [
-            'id' => $postId
-        ]);
-    }
-
-    /**
-     * @Route("/post/{id}", name="app_post")
-     * @param string $id
-     * @param PostRepository $postRepository
-     * @return Response
-     */
-    public function postPage(string $id, PostRepository $postRepository) :Response
-    {
-        $post = $postRepository->findOnePostById($id);
-        return $this->render('Pages/post.html.twig', ["post" => $post]);
-    }
-
-    /**
-     * @Route("/post/{id}/vote", name="app_post_vote", methods={"POST"})
-     * @param Post $post
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return RedirectResponse
-     */
-    public function postVote(Post $post, Request $request, EntityManagerInterface $entityManager): RedirectResponse
-    {
-        $vote = $request->request->get('vote');
-        $user = $post->getAuthor();
-        if ($vote === "up") {
-            $user->upVotes();
-        } else {
-            $user->downVotes();
-        }
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_post', ["id" => $post->getId()]);
-    }
-
-    /**
-     * @Route("/profile", name="app_profile")
-     * @param Request $request
-     * @return Response
-     */
-    public function editUser(Request $request): Response
-    {
-
-        return $this->render('Pages/profile.twig', ["user" => array(
-            'email' => 'email@email.com',
-            'password' => 'password',
-            'phone' => '0618171714',
-            'isAdmin' => true,
-            'name'=> 'name'
-        )]);
-    }
 }
