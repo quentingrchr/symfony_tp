@@ -50,6 +50,22 @@ class PostRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+
+    /**
+     * @param string $title
+     * @return Post[] Returns an array of Post objects
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findManyByCategory(string $category)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.category = :val')
+            ->setParameter('val', $category)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */
