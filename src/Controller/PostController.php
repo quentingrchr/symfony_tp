@@ -180,7 +180,34 @@ class PostController extends AbstractController
 
     }
 
+    /**
+     * @Route("/post/changeStatus/{id}", name="app_post_status", methods={"POST"})
+     * @param Post $post
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
+     * @param string $id
+     */
+    public function changePostStatus(Post $post, Request $request, EntityManagerInterface $em, string $id): RedirectResponse
+    {
 
+        $newStatus = $request->request->get('status');
+        $redirectRoute = $request->request->get('redirectTo');
+        $redirectId = $request->request->get('redirectID');
 
+        if($newStatus === 'published'){
+            $post->setIsPublished(true);
+        } else if($newStatus === "onDraft") {
+            $post->setIsPublished(false);
+        }
 
+        $em->flush();
+
+        if($redirectId) {
+            return $this->redirect($this->generateUrl($redirectRoute, ["id" => $redirectId]));
+        } else {
+            return $this->redirect($this->generateUrl($redirectRoute));
+        }
+
+    }
 }

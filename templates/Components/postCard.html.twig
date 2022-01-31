@@ -1,4 +1,4 @@
-<div class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
+<div data-draft="{{ isPublished ? 'false': 'true'  }}" class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
     <div id="carouselExampleControls" class="carousel slide mr-4" data-ride="carousel" style="width: 50%; opacity: {{ isPublished ? 1 : 0.3 }}">
         <div class="carousel-inner" >
             {% for key, image in images %}
@@ -35,9 +35,10 @@
             Go to announce
         </a>
         {% if (fromProfile) %}
-            <div class="d-flex spc-btw">
-                <a class="btn {{isPublished ? "btn-warning" : "btn-success text-white" }} w-100 mt-2 ">{{ isPublished ? "Turn to draft" : "Publish" }}</a>
-            </div>
+            <form action="{{ path('app_post_status', {id: postId}) }}"  method="post" class="w-100 mt-2">
+                <button class="btn {{post.isPublished ? "btn-warning" : "btn-success text-white" }} w-100" method="post"  name="status" value="{{ post.isPublished ? "onDraft" : "published" }}" >{{ post.isPublished ? "Turn to draft" : "Publish" }}</button>
+                <input style="display: none" name="redirectTo" value="app_profile" />
+            </form>
         {% endif %}
     </div>
 </div>

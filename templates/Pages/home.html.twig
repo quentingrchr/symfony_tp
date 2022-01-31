@@ -31,7 +31,8 @@
                 condition: post.condition,
                 createdAt: post.createdAt,
                 name: post.author.name,
-                isPublished: post.isPublished
+                isPublished: post.isPublished,
+                postId: post.id
             } %}
         {% endfor %}
 {% endblock %}
