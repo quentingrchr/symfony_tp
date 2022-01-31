@@ -24,7 +24,7 @@
                      {% for key, image in post.images %}
                         {% set activeClass = key == 0 ? "active" : "" %}
                         <div class="carousel-item {{ activeClass }}">
-                           <img class="d-block w-100"  src="{{ image }}" >
+                           <img class="d-block w-100"  src="{{ asset(image) }}" >
                         </div>
                      {% endfor %}
                   </div>
@@ -66,7 +66,7 @@
                <tr>
                   <th>
                      <div style="display: flex; gap: 24px;">
-                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a class="btn primary-bg" data-toggle="collapse" href="#collapseQuestionAsk" role="button" aria-expanded="false" aria-controls="collapseExample">
                            Post a question to the seller
                         </a>
                         {% if ((post.author.id == app.user.id) or (is_granted('ROLE_ADMIN')) ) %}
@@ -106,7 +106,7 @@
                               <th>
                                  <p>{{ question.content }}</p>
                                  <p>
-                                    <a class="btn btn-primary" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <a class="btn primary-bg" data-toggle="collapse" href="#collapsePostAnswer{{ key }}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                        <small>Post an answer</small>
                                     </a>
                                  </p>

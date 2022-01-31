@@ -31,11 +31,13 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/"><p class="h5">Le côté anguleux</p></a>
             </li>
-            <li class="nav-item">
-                <a href="{{ path('app_new_post') }}" class="nav-link" href="#">
-                    <button href="{{ path('app_new_post') }}" type="button" class="btn btn-primary">Poster une annonce</button>
-                </a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a href="{{ path('app_new_post') }}" class="nav-link" href="#">
+                        <button href="{{ path('app_new_post') }}" type="button" class="btn primary-bg">Poster une annonce</button>
+                    </a>
+                </li>
+            {% endif %}
             <div class=d-flex" id="d-flex">
                 {% if is_granted('ROLE_USER') %}
 
@@ -52,7 +54,7 @@
                     <a href="{{ path('app_signup') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_signup' %}disabled opacity-50{% endif %}" href="#">Sign Up</a>
                 </div>
                 <div class="nav-item">
-                    <a href="{{ path('app_login') }}" class="btn btn-primary {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
+                    <a href="{{ path('app_login') }}" class="btn primary-bg {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
                 </div>
 
                 {% endif %}

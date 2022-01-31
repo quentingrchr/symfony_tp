@@ -9,41 +9,12 @@
 }
 
 /* VARIABLES PERSOS PAR CLASSE */
-.primary-color {
-  color: var(--primary) !important;
-}
 .primary-bg {
   background-color: var(--primary) !important;
-}
-.success-color {
-  color: var(--green) !important;
-}
-.success-bg {
-  background-color: var(--green) !important;
-}
-.warning-color {
-  color: var(--red) !important;
-}
-.warning-bg {
-  background-color: var(--red) !important;
-}
-.dark-color {
-  color: var(--dark) !important;
-}
-.dark-bg {
-  background-color: var(--dark) !important;
-}
-.gray-color {
-  color: var(--gray) !important;
+  color: #fff !important;
 }
 .gray-bg {
   background-color: var(--gray) !important;
-}
-.lightgray-color {
-  color: var(--light-gray) !important;
-}
-.lightgray-bg {
-  background-color: var(--light-gray) !important;
 }
 
 /* CLASSES PERSOS */
