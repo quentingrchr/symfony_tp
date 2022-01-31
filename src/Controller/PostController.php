@@ -38,7 +38,6 @@ class PostController extends AbstractController
     {
         $user = $entityManager->getReference(User::class, $this->getUser()->getId());
         $userRole = $user->getRoles();
-
         $title = $request->request->get('title');
         $categoryId = $request->request->get('category');
         $price = $request->request->get('price');
@@ -48,7 +47,7 @@ class PostController extends AbstractController
         $publication = $request->request->get('publication');
 
 
-        if($userRole[0] === "ADMIN") {
+        if(in_array("ROLE_ADMIN", $userRole)) {
 
             if ($title && $categoryId && $categoryId !== '0' && $price && $condition && $description && $publication) {
 
@@ -161,11 +160,6 @@ class PostController extends AbstractController
      */
     public function postDelete(Post $post, Request $request, EntityManagerInterface $em): RedirectResponse
     {
-        /* todo implements delete
-        DELETE methods are not allowed from browsers
-        can't use a form
-        can't use a link
-        */
         $loggedUser = $this->getUser();
         $isAuthor = $this->getUser()->getId() == $post->getAuthor()->getId();
         $isAdmin = in_array('ROLE_ADMIN',$loggedUser->getRoles());
