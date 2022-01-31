@@ -40,22 +40,29 @@
             {% endif %}
             <div class=d-flex" id="d-flex" style="width: 20%; display: flex; justify-content: flex-end;">
                 {% if is_granted('ROLE_USER') %}
+                    {% if( is_granted('ROLE_ADMIN')) %}
+                        <div title="You are an administrator" class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFF00" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            </svg>
+                        </div>
+                    {% endif %}
 
-                <div class="nav-item">
-                    <a href="{{ path('app_profile') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}disabled opacity-50{% endif %}" href="#">Profile</a>
-                </div>
-                <div class="nav-item nav-pills">
-                    <a href="{{ path('app_logout') }}" class="btn btn-danger" href="#">Logout</a>
-                </div>
+                    <div class="nav-item">
+                        <a href="{{ path('app_profile') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}disabled opacity-50{% endif %}" href="#">Profile</a>
+                    </div>
+                    <div class="nav-item nav-pills">
+                        <a href="{{ path('app_logout') }}" class="btn btn-danger" href="#">Logout</a>
+                    </div>
 
                 {% else %}
 
-                <div class="nav-item">
-                    <a href="{{ path('app_signup') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_signup' %}disabled opacity-50{% endif %}" href="#">Sign Up</a>
-                </div>
-                <div class="nav-item">
-                    <a href="{{ path('app_login') }}" class="btn primary-bg {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
-                </div>
+                    <div class="nav-item">
+                        <a href="{{ path('app_signup') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_signup' %}disabled opacity-50{% endif %}" href="#">Sign Up</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="{{ path('app_login') }}" class="btn primary-bg {% if app.request.attributes.get('_route') == 'app_login' %}disabled opacity-50{% endif %}" href="#">Login</a>
+                    </div>
 
                 {% endif %}
             </div>

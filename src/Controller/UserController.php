@@ -30,7 +30,7 @@ class UserController extends AbstractController
         $emailIsTaken = $userRepository->findOneByEmail($email);
         $roles = [];
         if($params->get('is-admin')){
-            $roles[] = 'ADMIN';
+            $roles[] = 'ROLE_ADMIN';
         }
         /* todo add error notification */
         if($emailIsTaken) return $this->redirectToRoute('app_home_page');
