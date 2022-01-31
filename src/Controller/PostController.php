@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
 
 class PostController extends AbstractController
 {
@@ -35,57 +36,83 @@ class PostController extends AbstractController
      */
     public function addPost(Request $request, EntityManagerInterface $entityManager): RedirectResponse
     {
+        $user = $entityManager->getReference(User::class, $this->getUser()->getId());
+        $userRole = $user->getRoles();
+
         $title = $request->request->get('title');
         $categoryId = $request->request->get('category');
         $price = $request->request->get('price');
         $condition = $request->request->get('condition');
         $description = $request->request->get('description');
-        $image = $request->request->get('image');
+        $files = $request->files->all();
         $publication = $request->request->get('publication');
 
 
-        if (!$title || !$categoryId || $categoryId === '0' || !$price || !$condition || !$description || !$publication)
-        {
-            dd($request->request);
-        }
-        else
-        {
-            $user = $entityManager->getReference(User::class, $this->getUser()->getId());
+        if($userRole[0] === "ADMIN") {
 
-            $intCategoryId = intval($categoryId);
-            $category = $entityManager->getReference(Category::class, $intCategoryId);
+            if ($title && $categoryId && $categoryId !== '0' && $price && $condition && $description && $publication) {
 
-            $created_at = new DateTime();
+                /* Category */
+                $intCategoryId = intval($categoryId);
+                $category = $entityManager->getReference(Category::class, $intCategoryId);
 
-            $floatPrice = floatval($price);
+                /* Date */
+                $created_at = new DateTime();
 
-            if ($publication === "on")
-            {
-                $boolPublication = true;
-            }
-            else
-            {
+                /* Price */
+                $floatPrice = floatval($price);
+
+                /* Publication */
                 $boolPublication = false;
+
+                if ($publication === "on") {
+                    $boolPublication = true;
+                }
+
+                /* Images */
+                $images = [];
+
+                foreach ($files as $file) {
+                    if ($file !== null ) {
+
+                        if($file->getError() === 0) {
+
+                            $fileName = uniqid() . '-' . $file->getClientOriginalName();
+                            $localPathname = 'uploads/' . $fileName;
+                            $from = $file->getPathname();
+                            $to = $request->server->get('DOCUMENT_ROOT') . $localPathname;
+
+                            move_uploaded_file($from, $to);
+                            $images[] = $localPathname;
+                        } else {
+                            dd("L'un de vos fichiers n'est pas valide.");
+                        }
+                    }
+                }
+
+                $post = (new Post())
+                    ->setAuthor($user)
+                    ->setCategory($category)
+                    ->setCondition($condition)
+                    ->setPrice($floatPrice)
+                    ->setTitle($title)
+                    ->setCreatedAt($created_at)
+                    ->setDescription($description)
+                    ->setIsPublished($boolPublication)
+                    ->setImages($images);
+
+                $entityManager->persist($post);
+                $entityManager->flush();
+                $postId = $post->getId();
+
+                return $this->redirectToRoute('app_post', [
+                    'id' => $postId
+                ]);
+            } else {
+                dd('Il manque des informations à votre annonce.');
             }
-
-            $post = (new Post())
-                ->setAuthor($user)
-                ->setCategory($category)
-                ->setCondition($condition)
-                ->setPrice($floatPrice)
-                ->setTitle($title)
-                ->setCreatedAt($created_at)
-                ->setDescription($description)
-                ->setIsPublished($boolPublication)
-                ->setImages($image);
-
-            $entityManager->persist($post);
-            $entityManager->flush();
-            $postId = $post->getId();
-
-            return $this->redirectToRoute('app_post', [
-                'id' => $postId
-            ]);
+        } else {
+            dd('Vous n\'êtes pas autorisé à poster une annonce.');
         }
     }
 

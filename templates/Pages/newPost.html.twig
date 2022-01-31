@@ -7,7 +7,7 @@
 {% block body %}
     <div class="container mt-5 p-4" style="max-width: 600px;">
         <h1 class="h2 text-center mb-5">Vous allez poster une annonce</h1>
-        <form method="POST" action="{{ path("app_add_post") }}">
+        <form method="POST" action="{{ path("app_add_post") }}" enctype="multipart/form-data">
             <div class="form-floating mb-3">
                 <input name="title" id="title" placeholder="Titre de l'annonce" type="text" class="form-control" />
                 <label for="title">Titre de l'annonce *</label>
@@ -47,9 +47,15 @@
                 <label for="description">Description *</label>
             </div>
             <div class="mb-3">
-                <input name="images" type="file" class="form-control" />
+                <input name="image-one" type="file" class="form-control" />
             </div>
-            <div class="d-flex flex-column gap-1 rounded mb-5" style="padding: 1rem 0.75rem; border:1px solid #ced4da">
+            <div class="mb-3">
+                <input name="image-two" type="file" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <input name="image-three" type="file" class="form-control" />
+            </div>
+            <div class="d-flex flex-column gap-1 rounded mb-3" style="padding: 1rem 0.75rem; border:1px solid #ced4da">
                 <label class="form-label">Souahitez-vous publier votre annonce tout de suite ?</label>
                 <div class="d-flex gap-3">
                     <div class="form-check">
@@ -67,7 +73,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button type="submit" name="submit-post" class="btn btn-primary text-white" />Publier l'annonce</button>
+                <button type="submit" name="submit-post" class="btn primary-bg" />Publier l'annonce</button>
             </div>
         </form>
     </div>
