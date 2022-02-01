@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Home page
+    My Profile
 {% endblock %}
 
 
@@ -16,13 +16,22 @@
             </div>
         {% endif %}
         <form class="m-auto" style="max-width: 600px"  method="POST" action="{{ path('app_update_user', { 'id': app.user.id }) }}">
-            <div class="form-group mb-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">email</span>
+                </div>
                 <input type="email" class="form-control" name="email" id="email" value="{{ app.user.email }}" data-old-value="{{ app.user.email }}" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
-            <div class="form-group mb-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">name</span>
+                </div>
                 <input type="text" class="form-control" value="{{ app.user.name }}" data-old-value="{{ app.user.name }}" name="name" id="name" placeholder="Name">
             </div>
-            <div class="form-group mb-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">name</span>
+                </div>
                 <input type="phone" class="form-control" value="{{ app.user.phone }}" data-old-value="{{ app.user.phone }}" name="phone" id="phone" placeholder="Phone (Optionnal)">
             </div>
             <div class="form-check mx-auto mb-5" style="width: fit-content;">
@@ -36,27 +45,37 @@
         </form>
         {% if(app.user.posts and app.user.posts|length > 0) %}
         <div id="your-post">
-            <div>
-                <p>Filter</p>
-                <form class="form-check form-switch">
-                    <input value="draft" class="form-check-input" type="checkbox" id="draft" checked>
-                    <label class="form-check-label" for="draft">
-                        Drafts
-                        <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished)|length }}</span>
-                    </label>
-                </form>
-                <form class="form-check form-switch">
-                    <input class="form-check-input" value="published" type="checkbox" id="published" checked>
-                    <label class="form-check-label" for="published">
-                        Published
-                        <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished == false)|length }}</span>
-                    </label>
-                </form>
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <p>Filter</p>
+                    <form class="form-check form-switch">
+                        <input value="draft" class="form-check-input" type="checkbox" id="draft" checked>
+                        <label class="form-check-label" for="draft">
+                            Drafts
+                            <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished)|length }}</span>
+                        </label>
+                    </form>
+                    <form class="form-check form-switch">
+                        <input class="form-check-input" value="published" type="checkbox" id="published" checked>
+                        <label class="form-check-label" for="published">
+                            Published
+                            <span class="badge badge-secondary">{{ app.user.posts|filter(p => p.isPublished == false)|length }}</span>
+                        </label>
+                    </form>
+                </div>
+                {% include 'Components/rating.html.twig' with {
+                    title: 'Your rate',
+                    votes: app.user.votes,
+                    userId: app.user.id,
+                    redirectRoute: "app_profile",
+                    redirectID: "",
+                    allowRating: is_granted('ROLE_ADMIN')
+                } %}
             </div>
             <h1 class="text-center mb-5">Your posts</h1>
-                {% for post in app.user.posts %}
+                {% for post in app.user.posts|sort((a,b) => b.createdAt <=> a.createdAt) %}
                     {% include 'Components/postCard.html.twig' with {
-                        fromProfile: true,
+                        administrable: true,
                         title: post.title,
                         images: post.images,
                         price: post.price,
@@ -65,7 +84,9 @@
                         createdAt: post.createdAt,
                         name: post.author.name,
                         isPublished: post.isPublished,
-                        postId: post.id
+                        postId: post.id,
+                        description: post.description,
+                        updateRedirection: "app_profile"
                     } %}
                 {% endfor %}
         </div>

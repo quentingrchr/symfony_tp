@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Home page
+    The Good Corner
 {% endblock %}
 
 
@@ -27,17 +27,39 @@
     
         <div class="h4 text-center mb-5">List of announcements</div>
         {% for post in posts  %}
-            {% include 'Components/postCard.html.twig' with {
-                fromProfile: false,
-                title: post.title,
-                images: post.images,
-                price: post.price,
-                category: post.category,
-                condition: post.condition,
-                createdAt: post.createdAt,
-                name: post.author.name,
-                isPublished: post.isPublished,
-                postId: post.id
-            } %}
+            {% dump(post) %}
+            {% if(is_granted('ROLE_ADMIN')) %}
+                {% include 'Components/postCard.html.twig' with {
+                    administrable: true,
+                    title: post.title,
+                    images: post.images,
+                    price: post.price,
+                    category: post.category,
+                    condition: post.condition,
+                    createdAt: post.createdAt,
+                    name: post.author.name,
+                    isPublished: post.isPublished,
+                    postId: post.id,
+                    description: post.description,
+                    updateRedirection: "app_home_page"
+                } %}
+            {% else %}
+                {% if(post.isPublished) %}
+                    {% include 'Components/postCard.html.twig' with {
+                        administrable: false,
+                        title: post.title,
+                        images: post.images,
+                        price: post.price,
+                        category: post.category,
+                        condition: post.condition,
+                        createdAt: post.createdAt,
+                        name: post.author.name,
+                        isPublished: post.isPublished,
+                        postId: post.id,
+                        description: post.description,
+                        updateRedirection: null
+                    } %}
+                {% endif %}
+            {% endif %}
         {% endfor %}
 {% endblock %}

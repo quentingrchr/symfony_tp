@@ -1,0 +1,14 @@
+<div class="d-flex  align-items-center" >
+    <span class="text-muted mr-1">{{ title }}: </span>
+    <form action="{{ path('app_user_vote', {id: userId}) }}" class="d-flex align-items-center" method="post" >
+        {% if(allowRating) %}
+            <button class="btn primary-bg btn-sm" name="vote" value="up">👍</button>
+            <input style="display: none" name="redirectRoute" value="{{ redirectRoute }}">
+            <input style="display: none" name="redirectID" value="{{ redirectID }}">
+        {% endif %}
+        <span class="badge badge-secondary mr-2 ml-2">{{ votes }}</span>
+        {% if(allowRating) %}
+            <button class="btn btn-danger btn-sm" name="vote" value="down">👎</button>
+        {% endif %}
+    </form>
+</div>

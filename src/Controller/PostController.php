@@ -130,28 +130,6 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/post/{id}/vote", name="app_post_vote", methods={"POST"})
-     * @param Post $post
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return RedirectResponse
-     */
-    public function postVote(Post $post, Request $request, EntityManagerInterface $entityManager): RedirectResponse
-    {
-        $vote = $request->request->get('vote');
-        $user = $post->getAuthor();
-        if ($vote === "up") {
-            $user->upVotes();
-        } else {
-            $user->downVotes();
-        }
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_post', ["id" => $post->getId()]);
-    }
-
-    /**
      * @Route("/post/delete/{id}", name="app_post_delete", methods={"GET"})
      * @param Post $post
      * @param Request $request

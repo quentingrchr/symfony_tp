@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -99,5 +100,32 @@ class UserController extends AbstractController
         //    'flash' => 'Profile updated'
         //));
 
+    }
+
+    /**
+     * @Route("/user/vote/{id}", name="app_user_vote", methods={"POST"})
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return RedirectResponse
+     */
+    public function userChangeRate(User $user, Request $request, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        $vote = $request->request->get('vote');
+        $redirectRoute = $request->request->get('redirectRoute');
+        $redirectId = $request->request->get('redirectID');
+
+        if ($vote === "up") {
+            $user->upVotes();
+        } else {
+            $user->downVotes();
+        }
+        $entityManager->flush();
+
+        if($redirectId) {
+            return $this->redirectToRoute($redirectRoute, ["id" => $redirectId]);
+        } else {
+            return $this->redirectToRoute($redirectRoute);
+        }
     }
 }
