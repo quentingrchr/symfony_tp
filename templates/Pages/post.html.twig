@@ -4,20 +4,12 @@
       {% if(post is null) %}
          Not found
       {% else %}
-         Announce {{ post.title }}
+         Announce: {{ post.title }}
       {% endif %}
    {% endblock %}
 
 
    {% block body %}
-      {% set loggedId = app.user.id is defined ? app.user.id : null %}
-      {% if(post is null) %}
-         <p style="display: flex; justify-content: center; text-align: center">Sorry, this post doesn't exists</p>
-         <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
-      {% elseif(not post.isPublished and not is_granted('ROLE_ADMIN') and (post.author.id != loggedId))  %}
-         <p style="display: flex; justify-content: center; text-align: center">This post in not published <br> If tout want to manage your post, please login </p>
-         <a href="{{ path('app_home_page') }}" style="display: block; width: fit-content" class="btn btn-primary my-5 mx-auto">Back to home page</a>
-      {% else %}
          <div class="w-50 p-3 mx-auto mt-10">
             <div class="singlePost">
                <div id="carouselExampleControls" class="carousel slide bg-dark" data-ride="carousel">
@@ -159,9 +151,7 @@
                {% else %}
                   <p><small><em>No questions here</em></small></p>
                {% endif %}
-
          </div>
-      {% endif %}
    {% endblock %}
 
 

@@ -1,0 +1,22 @@
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger w-50 mx-auto mb-5 text-center d-flex flex-column align-items-center" role="alert">
+        {% if("<br>" in message) %}
+            {% for subMessage in message|split("<br>") %}
+                <span>{{ subMessage }}</span>
+            {% endfor %}
+        {% else %}
+            {{ message }}
+        {% endif %}
+    </div>
+{% endfor %}
+{% for message in app.flashes('info') %}
+    <div class="alert alert-success w-50 mx-auto mb-5 text-center d-flex flex-column align-items-center" role="alert">
+        {% if("<br>" in message) %}
+            {% for subMessage in message|split("<br>") %}
+                <span>{{ subMessage }}</span>
+            {% endfor %}
+        {% else %}
+            {{ message }}
+        {% endif %}
+    </div>
+{% endfor %}

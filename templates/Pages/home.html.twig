@@ -27,7 +27,6 @@
     
         <div class="h4 text-center mb-5">List of announcements</div>
         {% for post in posts  %}
-            {% dump(post) %}
             {% if(is_granted('ROLE_ADMIN')) %}
                 {% include 'Components/postCard.html.twig' with {
                     administrable: true,

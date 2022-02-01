@@ -120,13 +120,25 @@ class PostController extends AbstractController
      * @Route("/post/{id}", name="app_post", methods={"GET"})
      * @param string $id
      * @param PostRepository $postRepository
-     * @return Response
+     * @return Response | RedirectResponse
      */
-    public function postPage(string $id, PostRepository $postRepository) :Response
+    public function postPage(string $id, PostRepository $postRepository) :Response|RedirectResponse
     {
-
         $post = $postRepository->findOnePostById($id);
-        return $this->render('Pages/post.html.twig', ["post" => $post]);
+        $loggedUser = $this->getUser();
+        $isAdmin = $loggedUser ? in_array('ROLE_ADMIN',$loggedUser->getRoles()) : null;
+        $loggedUserId = $loggedUser ? $loggedUser->getID() : null;
+
+        if($post == null) {
+            $this->addFlash('error', "Sorry, this post doesn't exists");
+            return $this->redirectToRoute('app_home_page');
+        }  elseif(!$post->getIsPublished() and !$isAdmin and $post->getAuthor()->getId() != $loggedUserId){
+            $this->addFlash('error', "This post in not published. <br> If this is your post and you want to modify it, please login.");
+            return $this->redirectToRoute('app_home_page');
+        }  else {
+            return $this->render('Pages/post.html.twig', ["post" => $post]);
+        }
+
     }
 
     /**

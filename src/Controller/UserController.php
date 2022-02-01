@@ -33,8 +33,11 @@ class UserController extends AbstractController
         if($params->get('is-admin')){
             $roles[] = 'ROLE_ADMIN';
         }
-        /* todo add error notification */
-        if($emailIsTaken) return $this->redirectToRoute('app_home_page');
+
+        if($emailIsTaken) {
+            $this->addFlash('error', 'This mail is already associated to an account');
+            return $this->redirectToRoute('app_signup');
+        };
 
 
         $user
@@ -49,6 +52,7 @@ class UserController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        $this->addFlash('info', 'Welcome ' . $user->getName() . "!");
         return $this->redirectToRoute('app_home_page');
 
     }
