@@ -36,18 +36,17 @@ class PostController extends AbstractController
      */
     public function addPost(Request $request, EntityManagerInterface $entityManager): RedirectResponse
     {
-        $user = $entityManager->getReference(User::class, $this->getUser()->getId());
-        $userRole = $user->getRoles();
-        $title = $request->request->get('title');
-        $categoryId = $request->request->get('category');
-        $price = $request->request->get('price');
-        $condition = $request->request->get('condition');
-        $description = $request->request->get('description');
-        $files = $request->files->all();
-        $publication = $request->request->get('publication');
+        if($this->isGranted('ROLE_USER')) {
 
+            $user = $entityManager->getReference(User::class, $this->getUser()->getId());
+            $title = $request->request->get('title');
+            $categoryId = $request->request->get('category');
+            $price = $request->request->get('price');
+            $condition = $request->request->get('condition');
+            $description = $request->request->get('description');
+            $files = $request->files->all();
+            $publication = $request->request->get('publication');
 
-        if(in_array("ROLE_ADMIN", $userRole)) {
 
             if ($title && $categoryId && $categoryId !== '0' && $price && $condition && $description && $publication) {
 
@@ -104,14 +103,23 @@ class PostController extends AbstractController
                 $entityManager->flush();
                 $postId = $post->getId();
 
+                if($publication === "on") {
+                    $this->addFlash('info', "Your announce is posted");
+                } else {
+                    $this->addFlash('info', "Your announce is ready to be posted");
+                }
+
                 return $this->redirectToRoute('app_post', [
                     'id' => $postId
                 ]);
+
             } else {
-                dd('Il manque des informations à votre annonce.');
+                $this->addFlash('error', "Sorry, informations missing");
+                return $this->redirectToRoute('app_add_post');
             }
         } else {
-            dd('Vous n\'êtes pas autorisé à poster une annonce.');
+            $this->addFlash('error', "Sorry, you are not authorized to post an annnounce");
+            return $this->redirectToRoute('app_add_post');
         }
     }
 
