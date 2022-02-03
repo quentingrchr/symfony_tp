@@ -52,8 +52,8 @@ class UserController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $this->addFlash('info', 'Welcome ' . $user->getName() . "!");
-        return $this->redirectToRoute('app_home_page');
+        $this->addFlash('info', 'Welcome ' . $user->getName() . "! You can now login:)");
+        return $this->redirectToRoute('app_login');
 
     }
 
@@ -83,7 +83,6 @@ class UserController extends AbstractController
         if($id !== strval($loggedUser->getId()) ){
             return new JsonResponse('UnAuthorized', Response::HTTP_UNAUTHORIZED);
         }
-
 
         $user
             ->setEmail($request->request->get("email"))

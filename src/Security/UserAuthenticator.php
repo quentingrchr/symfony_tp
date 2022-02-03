@@ -46,7 +46,6 @@ class UserAuthenticator extends AbstractAuthenticator implements AuthenticationE
     {
         // TODO: Implement onAuthenticationSuccess() method.
        return null;
-
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

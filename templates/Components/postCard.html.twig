@@ -1,11 +1,11 @@
 <div data-draft="{{ isPublished ? 'false': 'true'  }}" class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
         <div id="carouselExampleControls" class="carousel slide mr-4 bg-dark" data-ride="carousel" style="width: 40%; min-width: 40%; max-width: 40%; opacity: {{ isPublished ? 1 : 0.3 }}">
-            {% if(images|length > 0) %}
+            {% if(images|length > 1) %}
                 <div class="carousel-inner" >
                     {% for key, image in images %}
                         {% set activeClass = key == 0 ? "active" : "" %}
                         <div class="carousel-item {{ activeClass }}" >
-                            <img class="d-block mx-auto" src="{{ asset(image) }}" style="max-height: 400px; max-width: 100%" />
+                            <img class="d-block mx-auto" src="{{ asset(image) }}" style="max-height: 400px; min-height: 300px; max-width: 100%" />
                         </div>
                     {% endfor %}
                 </div>

@@ -13,7 +13,7 @@
          <div class="w-50 p-3 mx-auto mt-10">
             <div class="singlePost">
                <div id="carouselExampleControls" class="carousel slide bg-dark" data-ride="carousel">
-                  {% if(post.images|length > 0) %}
+                  {% if(post.images|length > 1) %}
                      <div class="carousel-inner">
                         {% for key, image in post.images %}
                            {% set activeClass = key == 0 ? "active" : "" %}
