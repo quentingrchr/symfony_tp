@@ -83,7 +83,8 @@ class PostController extends AbstractController
                             move_uploaded_file($from, $to);
                             $images[] = $localPathname;
                         } else {
-                            dd("L'un de vos fichiers n'est pas valide.");
+                            $this->addFlash('info', "One of your images is not valid");
+                            return $this->redirectToRoute('app_add_post');
                         }
                     }
                 }
