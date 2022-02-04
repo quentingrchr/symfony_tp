@@ -1,6 +1,12 @@
 #### Hetic student project
 #### App like "Le Bon Coin", using Symfony and Twig templating
 
+### Contributors:
+- [Quentin Trouvé](https://github.com/quentintrouve)
+- [Quentin Grancher](https://github.com/quentingrchr)
+- [Thomas Ceglie](https://github.com/KinkToto)
+- [Bastien Paquier](https://github.com/bpaquier)
+
 # Start the project
 - Clone the project
 - Make sure you got the right .env
