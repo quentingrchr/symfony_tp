@@ -26,7 +26,7 @@
         </form>
     
         <div class="h4 text-center mb-5">List of announcements</div>
-        {% for post in posts  %}
+        {% for key, post in posts  %}
             {% if(is_granted('ROLE_ADMIN')) %}
                 {% include 'Components/postCard.html.twig' with {
                     administrable: true,
@@ -40,7 +40,8 @@
                     isPublished: post.isPublished,
                     postId: post.id,
                     description: post.description,
-                    updateRedirection: "app_home_page"
+                    updateRedirection: "app_home_page",
+                    index: key
                 } %}
             {% else %}
                 {% if(post.isPublished) %}
@@ -56,7 +57,8 @@
                         isPublished: post.isPublished,
                         postId: post.id,
                         description: post.description,
-                        updateRedirection: null
+                        updateRedirection: null,
+                        index: key
                     } %}
                 {% endif %}
             {% endif %}

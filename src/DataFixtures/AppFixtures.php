@@ -23,8 +23,10 @@ class AppFixtures extends Fixture
         PostFactory::createMany(30, function () {
             $number = rand(1, 3);
             $images = [];
+            $randomImgsTypes= ['car', 'cat', 'dog', 'beach', 'city', 'shoes', 'bed', 'shirt', 'sky', 'monument'];
             for ($i = 0; $i <= $number; $i++) {
-                $images[] = 'https://source.unsplash.com/1600x900/';
+                $randomNum = rand(0, 9);
+                $images[] = 'https://source.unsplash.com/1600x900/?' . $randomImgsTypes[$randomNum];
             }
             return ["images" => $images];
         });

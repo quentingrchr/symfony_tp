@@ -73,7 +73,7 @@
                 } %}
             </div>
             <h1 class="text-center mb-5">Your posts</h1>
-                {% for post in app.user.posts|sort((a,b) => b.createdAt <=> a.createdAt) %}
+                {% for key, post in app.user.posts|sort((a,b) => b.createdAt <=> a.createdAt) %}
                     {% include 'Components/postCard.html.twig' with {
                         administrable: true,
                         title: post.title,
@@ -86,7 +86,8 @@
                         isPublished: post.isPublished,
                         postId: post.id,
                         description: post.description,
-                        updateRedirection: "app_profile"
+                        updateRedirection: "app_profile",
+                        index: key
                     } %}
                 {% endfor %}
         </div>

@@ -1,5 +1,5 @@
 <div data-draft="{{ isPublished ? 'false': 'true'  }}" class="d-flex p-3 bd-highlight rounded container gray-bg mb-5 align-items-center" >
-        <div id="carouselExampleControls" class="carousel slide mr-4 bg-dark" data-ride="carousel" style="width: 40%; min-width: 40%; max-width: 40%; opacity: {{ isPublished ? 1 : 0.3 }}">
+        <div id="postCardCarousel{{ index }}" class="carousel slide mr-4 bg-dark" data-ride="carousel" style="width: 40%; min-width: 40%; max-width: 40%; opacity: {{ isPublished ? 1 : 0.3 }}">
             {% if(images|length > 1) %}
                 <div class="carousel-inner" >
                     {% for key, image in images %}
@@ -9,11 +9,11 @@
                         </div>
                     {% endfor %}
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#postCardCarousel{{ index }}" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#postCardCarousel{{ index }}" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
