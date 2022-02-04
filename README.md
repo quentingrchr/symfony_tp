@@ -4,7 +4,7 @@
 ### Contributors:
 - [Quentin Trouvé](https://github.com/quentintrouve)
 - [Quentin Grancher](https://github.com/quentingrchr)
-- [Thomas Ceglie](figma.com)
+- [Thomas Ceglie](https://github.com/KingToto)
 - [Bastien Paquier](https://github.com/bpaquier)
 
 # Start the project
